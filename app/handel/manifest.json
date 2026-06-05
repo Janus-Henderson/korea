@@ -1,0 +1,13 @@
+{
+  "name": "전용계좌 바로가기",
+  "short_name": "전용계좌",
+  "start_url": "/app/handel/",
+  "scope": "/app/handel/",
+  "display": "standalone",
+  "background_color": "#0f0f0f",
+  "theme_color": "#ffe600",
+  "icons": [
+    { "src": "../app2.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "../app2.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
