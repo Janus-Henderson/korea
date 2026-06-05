@@ -2,11 +2,17 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
-
     <title>전용계좌 바로가기</title>
     <link rel="icon" type="image/png" href="../app2.png">
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="전용계좌">
+    <link rel="apple-touch-icon" href="../app2.png">
 
     <meta property="og:title" content="전용계좌 바로가기">
     <meta property="og:description" content="클릭하여 전용 계좌 서비스를 이용하세요">
@@ -127,28 +133,173 @@
         }
 
         @keyframes arrowPulse {
-            0%, 100% {
-                opacity: 0.55;
-                transform: translate(0, 0) scale(0.92);
-            }
-
-            50% {
-                opacity: 1;
-                transform: translate(7px, -7px) scale(1.08);
-            }
+            0%, 100% { opacity: 0.55; transform: translate(0, 0) scale(0.92); }
+            50%       { opacity: 1;    transform: translate(7px, -7px) scale(1.08); }
         }
 
         @keyframes guideFadeOut {
-            to {
-                opacity: 0;
-                visibility: hidden;
-            }
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        /* ── Android 설치 배너 ── */
+        #pwa-android-banner {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 88888;
+            padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+            background: rgba(15, 15, 15, 0.96);
+            box-shadow: 0 -4px 24px rgba(0,0,0,0.45);
+            align-items: center;
+            gap: 14px;
+        }
+
+        #pwa-android-banner.is-visible {
+            display: flex;
+        }
+
+        .pwa-banner-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+
+        .pwa-banner-text {
+            flex: 1;
+            color: #fff;
+        }
+
+        .pwa-banner-text strong {
+            display: block;
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 3px;
+        }
+
+        .pwa-banner-text span {
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        .pwa-banner-btn {
+            flex-shrink: 0;
+            padding: 10px 18px;
+            border-radius: 999px;
+            background: #ffe600;
+            color: #111;
+            font-size: 15px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+        }
+
+        .pwa-banner-close {
+            flex-shrink: 0;
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 22px;
+            cursor: pointer;
+            padding: 4px;
+            line-height: 1;
+        }
+
+        /* ── iOS 설치 가이드 ── */
+        #pwa-ios-guide {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 88888;
+            background: rgba(0,0,0,0.60);
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        #pwa-ios-guide.is-visible {
+            display: flex;
+        }
+
+        .ios-guide-sheet {
+            width: 100%;
+            padding: 24px 24px calc(28px + env(safe-area-inset-bottom));
+            background: #1c1c1e;
+            border-radius: 24px 24px 0 0;
+            color: #fff;
+            box-shadow: 0 -8px 32px rgba(0,0,0,0.5);
+        }
+
+        .ios-guide-handle {
+            width: 40px;
+            height: 4px;
+            background: #444;
+            border-radius: 2px;
+            margin: 0 auto 20px;
+        }
+
+        .ios-guide-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .ios-guide-sub {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 22px;
+        }
+
+        .ios-guide-steps {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .ios-guide-steps li {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        .ios-step-num {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #ffe600;
+            color: #111;
+            font-weight: 800;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .ios-guide-close {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            background: #2c2c2e;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <iframe id="app-frame" src="https://www.njvksdfa.com"></iframe>
 
+    <!-- 카카오 브라우저 가이드 (기존) -->
     <div class="top-guide" id="top-guide">
         <div class="guide-arrow">
             <svg viewBox="0 0 160 160" aria-hidden="true">
@@ -156,7 +307,6 @@
                 <path d="M82 34 H128 V80" fill="none" stroke="#ffe600" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </div>
-
         <div class="guide-box">
             <span class="guide-badge">TIP</span>
             <span class="guide-title">창을 작게 띄우려면<br>오른쪽 위를 눌러주세요</span>
@@ -167,6 +317,41 @@
             <span class="guide-note">
                 설정 화면으로 이동하면 <strong>KakaoTalk</strong>을 찾아 열어주세요.
             </span>
+        </div>
+    </div>
+
+    <!-- Android 설치 배너 -->
+    <div id="pwa-android-banner">
+        <img class="pwa-banner-icon" src="../app2.png" alt="">
+        <div class="pwa-banner-text">
+            <strong>전용계좌 바로가기</strong>
+            <span>홈 화면에 추가하면 더 빠르게 열 수 있어요</span>
+        </div>
+        <button class="pwa-banner-btn" id="pwa-install-btn">추가</button>
+        <button class="pwa-banner-close" id="pwa-android-close">×</button>
+    </div>
+
+    <!-- iOS 설치 가이드 -->
+    <div id="pwa-ios-guide">
+        <div class="ios-guide-sheet">
+            <div class="ios-guide-handle"></div>
+            <div class="ios-guide-title">홈 화면에 추가하기</div>
+            <div class="ios-guide-sub">아이콘을 추가하면 앱처럼 바로 열 수 있어요</div>
+            <ul class="ios-guide-steps">
+                <li>
+                    <span class="ios-step-num">1</span>
+                    <span>하단 <strong>공유 버튼 ⎙</strong> 을 누르세요</span>
+                </li>
+                <li>
+                    <span class="ios-step-num">2</span>
+                    <span><strong>홈 화면에 추가</strong>를 선택하세요</span>
+                </li>
+                <li>
+                    <span class="ios-step-num">3</span>
+                    <span>오른쪽 위 <strong>추가</strong>를 누르면 완료!</span>
+                </li>
+            </ul>
+            <button class="ios-guide-close" id="pwa-ios-close">닫기</button>
         </div>
     </div>
 
@@ -181,31 +366,99 @@
             }
         }, { passive: false });
 
-        const guide = document.getElementById("top-guide");
-        const ua = navigator.userAgent || "";
-        const isKakaoBrowser = /KAKAOTALK/i.test(ua);
+        var ua = navigator.userAgent || "";
+        var isKakaoBrowser = /KAKAOTALK/i.test(ua);
+        var isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
+        var isIOS = /iPhone|iPad|iPod/i.test(ua);
+        var isAndroid = /Android/i.test(ua);
+        var isStandalone = window.matchMedia("(display-mode: standalone)").matches
+                        || window.navigator.standalone === true;
 
+        // 카카오 브라우저 가이드 (기존 로직 유지)
+        var guide = document.getElementById("top-guide");
         if (guide && isKakaoBrowser) {
             guide.classList.add("is-visible");
-
-            setTimeout(function () {
-                guide.remove();
-            }, 5600);
+            setTimeout(function () { guide.remove(); }, 5600);
         }
 
-        const iframe = document.getElementById("app-frame");
-        const targetOrigin = "https://www.njvksdfa.com";
+        // PWA: 모바일이고 아직 설치 안 된 경우에만
+        if (isMobile && !isStandalone) {
+
+            // Service Worker 등록
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker.register("sw.js").catch(function () {});
+            }
+
+            // Android: 브라우저 자동 설치 배너
+            if (isAndroid) {
+                var deferredPrompt = null;
+                var banner = document.getElementById("pwa-android-banner");
+                var installBtn = document.getElementById("pwa-install-btn");
+                var closeBtn = document.getElementById("pwa-android-close");
+
+                window.addEventListener("beforeinstallprompt", function (e) {
+                    e.preventDefault();
+                    deferredPrompt = e;
+                    banner.classList.add("is-visible");
+                });
+
+                installBtn.addEventListener("click", function () {
+                    if (!deferredPrompt) return;
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then(function () {
+                        deferredPrompt = null;
+                        banner.classList.remove("is-visible");
+                    });
+                });
+
+                closeBtn.addEventListener("click", function () {
+                    banner.classList.remove("is-visible");
+                });
+
+                window.addEventListener("appinstalled", function () {
+                    banner.classList.remove("is-visible");
+                });
+            }
+
+            // iOS Safari: 수동 가이드 시트
+            if (isIOS) {
+                var isSafari = /Safari/i.test(ua) && !/CriOS|FxiOS|OPiOS|EdgiOS/i.test(ua);
+                var dismissed = false;
+                try { dismissed = localStorage.getItem("pwa-ios-dismissed") === "1"; } catch (e) {}
+
+                if (isSafari && !dismissed) {
+                    var iosGuide = document.getElementById("pwa-ios-guide");
+                    var iosClose = document.getElementById("pwa-ios-close");
+
+                    setTimeout(function () {
+                        iosGuide.classList.add("is-visible");
+                    }, 1500);
+
+                    function closeIOS() {
+                        iosGuide.classList.remove("is-visible");
+                        try { localStorage.setItem("pwa-ios-dismissed", "1"); } catch (e) {}
+                    }
+
+                    iosClose.addEventListener("click", closeIOS);
+                    iosGuide.addEventListener("click", function (e) {
+                        if (e.target === iosGuide) closeIOS();
+                    });
+                }
+            }
+        }
+
+        // iframe 해시 동기화 (기존 로직 유지)
+        var iframe = document.getElementById("app-frame");
+        var targetOrigin = "https://www.njvksdfa.com";
 
         function getIframeUrlFromOuterHash() {
-            const hash = window.location.hash || "";
+            var hash = window.location.hash || "";
             return targetOrigin + hash;
         }
 
         function syncOuterHashToIframe() {
             if (!iframe) return;
-
-            const nextUrl = getIframeUrlFromOuterHash();
-
+            var nextUrl = getIframeUrlFromOuterHash();
             if (iframe.src !== nextUrl) {
                 iframe.src = nextUrl;
             }
@@ -219,11 +472,8 @@
 
         window.addEventListener("message", function (event) {
             if (event.origin !== targetOrigin) return;
-
             if (!event.data || event.data.type !== "IFRAME_ROUTE_CHANGE") return;
-
-            const newHash = event.data.hash || "";
-
+            var newHash = event.data.hash || "";
             if (newHash && window.location.hash !== newHash) {
                 history.replaceState(null, "", newHash);
             }
