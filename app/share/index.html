@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>전용계좌 바로가기</title>
+</head>
+<body>
+  <h1>전용계좌 서비스</h1>
+  <p>카카오톡 메시지를 통해 전용계좌 페이지로 이동할 수 있습니다.</p>
+
+  <button id="kakao-share-btn">카카오톡으로 공유하기</button>
+
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.0/kakao.min.js"></script>
+  <script>
+    Kakao.init("72882ee1d0e728a0cc6e69176eda5a56");
+
+    document.getElementById("kakao-share-btn").addEventListener("click", function () {
+      Kakao.Share.sendDefault({
+        objectType: "feed",
+        content: {
+          title: "전용계좌 바로가기",
+          description: "버튼을 눌러 전용계좌 서비스를 이용하세요.",
+          imageUrl: "https://janushenderson.top/app/app.png",
+          link: {
+            mobileWebUrl: "https://janushenderson.top/app/handel/",
+            webUrl: "https://janushenderson.top/app/handel/"
+          }
+        },
+        buttons: [
+          {
+            title: "전용계좌 바로가기",
+            link: {
+              mobileWebUrl: "https://janushenderson.top/app/handel/",
+              webUrl: "https://janushenderson.top/app/handel/"
+            }
+          }
+        ]
+      });
+    });
+  </script>
+</body>
+</html>
