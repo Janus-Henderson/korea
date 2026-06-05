@@ -382,7 +382,7 @@
         }
 
         // PWA: 모바일이고 아직 설치 안 된 경우에만
-        if (isMobile && !isStandalone) {
+        if (isMobile && !isStandalone && !isKakaoBrowser) {
 
             // Service Worker 등록
             if ("serviceWorker" in navigator) {
